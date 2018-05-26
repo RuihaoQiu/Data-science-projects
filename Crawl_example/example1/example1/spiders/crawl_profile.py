@@ -34,11 +34,12 @@ class ProfileSpider(InitSpider):
 
   def parse(self, response):
     for p in response.css('div.profile-card-v3-footer .button.clear::attr(href)'):
-      sleep(randint(0, 9))
+      sleep(randint(2, 9))
       yield response.follow(p, self.parse_profile)
+    
      
     for href in response.css('li a.results-pager__control::attr(href)'):
-      sleep(randint(0, 9))
+      sleep(randint(2, 9))
       yield response.follow(href, callback=self.parse)     
   
   def parse_profile(self, response):
