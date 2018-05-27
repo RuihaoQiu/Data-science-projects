@@ -1,4 +1,4 @@
-## crawl profiles from website
+## crawl profiles from an website with login informations
 
 import scrapy
 from scrapy.http import Request, FormRequest
@@ -6,13 +6,13 @@ from scrapy.contrib.spiders.init import InitSpider
 from time import sleep
 from random import randint
 
-## extract list of name
-
+## profile spider 
 class ProfileSpider(InitSpider):
   name = "profile"
-  allowed_domains = ['malt.fr']
-  login_url = 'https://www.malt.fr/signin'
-  start_urls = ['https://www.malt.fr/s?q=%20&f-fam=&f-cat=&location=Paris&city=Paris&lat=48.85661400000001&lon=2.3522219000000177&p=7']
+  allowed_domains = ['example.com']
+  login_url = 'https://www.example.com/login'
+  start_urls = ['https://www.eample.com']
+
 
   def init_request(self):
     return Request(url=self.login_url, callback=self.login)
@@ -21,11 +21,11 @@ class ProfileSpider(InitSpider):
     return FormRequest.from_response(
         response,
         formcss='form.sigin-new__signin-form',
-        formdata={"j_username": "mangoboncourage@gmail.com", "j_password": "******"},
+        formdata={"j_username": "12345@abc.com", "j_password": "******"},
         callback=self.check_login)
 
   def check_login(self, response):
-    if b"Mango" in response.body:
+    if b"usename" in response.body:
       self.logger.error("Login succeed!")
       return self.initialized()
     else:
